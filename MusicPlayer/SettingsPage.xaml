@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MusicPlayer.SettingsPage"
+             Title="SettingsPage">
+    <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+        <Label 
+            Text="Welcome to .NET MAUI!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <Label
+                x:Name="selectedSource"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2" />
+
+        <Button
+                Text="Select new source path"
+                Clicked="OnSelectSourceFolderClicked"
+                HorizontalOptions="Fill" />
+
+        <Label
+                x:Name="selectedNote"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2" />
+
+        <Button
+                Text="Select new note path"
+                Clicked="OnSelectNoteFolderClicked"
+                HorizontalOptions="Fill" />
+    </VerticalStackLayout>
+</ContentPage>

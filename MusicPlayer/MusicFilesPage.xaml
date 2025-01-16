@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MusicPlayer.MusicFilesPage"
+             Title="MusicFilesPage"
+             xmlns:viewmodel="clr-namespace:MusicPlayer.ViewModel"
+             x:DataType="viewmodel:MusicFilesViewModel"
+             Appearing="ContentPage_Appearing">
+    
+    <CollectionView ItemsSource="{Binding Items}">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="{x:Type x:String}">
+                <Grid Padding="0,5">
+                    <Frame>
+                        <Label Text="{Binding .}"
+                            FontSize="24"/>
+                    </Frame>
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>
