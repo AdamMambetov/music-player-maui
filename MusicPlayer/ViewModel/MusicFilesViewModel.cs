@@ -25,4 +25,10 @@ public partial class MusicFilesViewModel : ObservableObject
         }
 
     }
+
+    [RelayCommand]
+    async Task Tap(string s)
+    {
+        await Shell.Current.GoToAsync($"{nameof(MusicFileInfoPage)}?FileName={s}");
+    }
 }

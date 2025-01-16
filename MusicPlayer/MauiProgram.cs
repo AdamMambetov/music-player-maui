@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using MusicPlayer.ViewModel;
+using Plugin.Maui.Audio;
 
 namespace MusicPlayer
 {
@@ -17,8 +18,13 @@ namespace MusicPlayer
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddSingleton(AudioManager.Current);
+
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<MusicFilesViewModel>();
+
+            builder.Services.AddTransient<MusicFileInfoPage>();
+            builder.Services.AddTransient<MusicFileInfoViewModel>();
 
             return builder.Build();
         }

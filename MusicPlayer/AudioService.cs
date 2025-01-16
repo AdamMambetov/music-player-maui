@@ -1,0 +1,60 @@
+﻿using Plugin.Maui.Audio;
+using System.Diagnostics;
+using System.IO;
+using System.Security.AccessControl;
+using System.Threading.Tasks;
+
+namespace MusicPlayer;
+
+public class AudioService
+{
+    private readonly IAudioManager audioManager;
+    private IAudioPlayer player;
+
+    public AudioService(IAudioManager audioManager)
+    {
+        this.audioManager = audioManager;
+    }
+
+    public void PlayFromStream(Stream audioStream)
+    {
+        try
+        {
+            if (player != null)
+            {
+                player.Stop();
+                player.Dispose();
+            }
+
+            player = audioManager.CreatePlayer(audioStream);
+            player.Play();
+        }
+        catch (System.Exception ex)
+        {
+            Debug.WriteLine($"Ошибка воспроизведения: {ex.Message}");
+            throw;
+        }
+    }
+
+
+    public void Stop()
+    {
+        if (player != null)
+        {
+            player.Stop();
+        }
+    }
+
+    public void Pause()
+    {
+        if (player != null)
+        {
+            player.Pause();
+        }
+    }
+
+    public void Resume()
+    {
+        player?.Play();
+    }
+}
