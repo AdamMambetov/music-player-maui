@@ -20,7 +20,7 @@ namespace MusicPlayer
             try
             {
                 var folder = await FolderPicker.PickAsync(default);
-                if (folder != null)
+                if (folder.Folder != null)
                 {
                     UpdateMusicSourcePath(folder.Folder.Path);
                 }
@@ -37,7 +37,7 @@ namespace MusicPlayer
             try
             {
                 var folder = await FolderPicker.PickAsync(default);
-                if (folder != null)
+                if (folder.Folder != null)
                 {
                     UpdateMusicNotePath(folder.Folder.Path);
                 }
