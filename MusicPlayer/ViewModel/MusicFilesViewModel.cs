@@ -17,13 +17,12 @@ public partial class MusicFilesViewModel : ObservableObject
     public void RescanMusic()
     {
         var musicPath = Preferences.Get("music_player.music_note_path", "");
-        if (Path.Exists(musicPath))
-        {
-            Items.Clear();
-            foreach (var item in Directory.GetFiles(musicPath))
-                Items.Add(Path.GetFileName(item));
-        }
+        if (!Path.Exists(musicPath))
+            return;
 
+        Items.Clear();
+        foreach (var item in Directory.GetFiles(musicPath))
+            Items.Add(Path.GetFileName(item));
     }
 
     [RelayCommand]

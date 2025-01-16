@@ -1,14 +1,13 @@
 ﻿using MusicPlayer.ViewModel;
 
-namespace MusicPlayer
-{
-    public partial class MainPage : ContentPage
-    {
+namespace MusicPlayer;
 
-        public MainPage(MainViewModel vm)
-        {
-            InitializeComponent();
-            BindingContext = vm;
-        }
+public partial class MainPage : ContentPage
+{
+
+    public MainPage(MainViewModel vm)
+    {
+        InitializeComponent();
+        BindingContext = vm;
     }
 }

@@ -17,23 +17,23 @@ public partial class MusicFileInfoViewModel : ObservableObject
     public void UpdateMusicInfo()
     {
         var musicPath = Preferences.Get("music_player.music_note_path", "");
-        if (Path.Exists(musicPath))
-        {
-            var info = File.ReadAllText($"{musicPath}/{FileName}");
-            var result = new MarkdownParser().ParseMarkdownWithYaml(info);
-            MusicFileInfo = result.musicInfo;
-            if (result.musicInfo != null)
-            {
-                MusicInfo = $"""
-                Name: {result.musicInfo.Name}
-                Created: {result.musicInfo.created}
-                Modified: {result.musicInfo.modified}
-                Artists: {result.musicInfo.artists.GetValue(0)}
-                SourceFile: {result.musicInfo.SourceFile}
+        if (!Path.Exists(musicPath))
+            return;
 
-                {result.content}
-                """;
-            }
+        var info = File.ReadAllText($"{musicPath}/{FileName}");
+        var result = new MarkdownParser().ParseMarkdownWithYaml(info);
+        MusicFileInfo = result.musicInfo;
+        if (result.musicInfo != null)
+        {
+            MusicInfo = $"""
+            Name: {result.musicInfo.Name}
+            Created: {result.musicInfo.created}
+            Modified: {result.musicInfo.modified}
+            Artists: {result.musicInfo.artists.GetValue(0)}
+            SourceFile: {result.musicInfo.SourceFile}
+
+            {result.content}
+            """;
         }
     }
 }

@@ -1,12 +1,11 @@
-﻿namespace MusicPlayer
-{
-    public partial class AppShell : Shell
-    {
-        public AppShell()
-        {
-            InitializeComponent();
+﻿namespace MusicPlayer;
 
-            Routing.RegisterRoute(nameof(MusicFileInfoPage), typeof(MusicFileInfoPage));
-        }
+public partial class AppShell : Shell
+{
+    public AppShell()
+    {
+        InitializeComponent();
+
+        Routing.RegisterRoute(nameof(MusicFileInfoPage), typeof(MusicFileInfoPage));
     }
 }

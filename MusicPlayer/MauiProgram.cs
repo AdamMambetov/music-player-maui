@@ -2,31 +2,30 @@
 using MusicPlayer.ViewModel;
 using Plugin.Maui.Audio;
 
-namespace MusicPlayer
+namespace MusicPlayer;
+
+public static class MauiProgram
 {
-    public static class MauiProgram
+    public static MauiApp CreateMauiApp()
     {
-        public static MauiApp CreateMauiApp()
-        {
-            var builder = MauiApp.CreateBuilder();
-            builder
-                .UseMauiApp<App>()
-                .UseMauiCommunityToolkit()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            });
 
-            builder.Services.AddSingleton(AudioManager.Current);
+        builder.Services.AddSingleton(AudioManager.Current);
 
-            builder.Services.AddSingleton<MainViewModel>();
-            builder.Services.AddSingleton<MusicFilesViewModel>();
+        builder.Services.AddSingleton<MainViewModel>();
+        builder.Services.AddSingleton<MusicFilesViewModel>();
 
-            builder.Services.AddTransient<MusicFileInfoPage>();
-            builder.Services.AddTransient<MusicFileInfoViewModel>();
+        builder.Services.AddTransient<MusicFileInfoPage>();
+        builder.Services.AddTransient<MusicFileInfoViewModel>();
 
-            return builder.Build();
-        }
+        return builder.Build();
     }
 }

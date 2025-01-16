@@ -1,8 +1,5 @@
 ﻿using Plugin.Maui.Audio;
 using System.Diagnostics;
-using System.IO;
-using System.Security.AccessControl;
-using System.Threading.Tasks;
 
 namespace MusicPlayer;
 
@@ -39,18 +36,12 @@ public class AudioService
 
     public void Stop()
     {
-        if (player != null)
-        {
-            player.Stop();
-        }
+        player?.Stop();
     }
 
     public void Pause()
     {
-        if (player != null)
-        {
-            player.Pause();
-        }
+        player?.Pause();
     }
 
     public void Resume()

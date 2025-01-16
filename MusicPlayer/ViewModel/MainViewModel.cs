@@ -1,5 +1,4 @@
-﻿
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -31,9 +30,8 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     void Delete(string s)
     {
-        if (Items.Contains(s))
-        {
-            Items.Remove(s);
-        }
+        if (!Items.Contains(s))
+            return;
+        Items.Remove(s);
     }
 }

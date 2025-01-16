@@ -1,100 +1,73 @@
 using CommunityToolkit.Maui.Storage;
 
-namespace MusicPlayer
+namespace MusicPlayer;
+
+public partial class SettingsPage : ContentPage
 {
-    public partial class SettingsPage : ContentPage
+    const string MUSIC_NOTE_PATH_KEY = "music_player.music_note_path";
+    const string MUSIC_SOURCE_PATH_KEY = "music_player.music_source_path";
+
+    public SettingsPage()
     {
-        const string MUSIC_NOTE_PATH_KEY = "music_player.music_note_path";
-        const string MUSIC_SOURCE_PATH_KEY = "music_player.music_source_path";
+        InitializeComponent();
 
-        public SettingsPage()
-	    {
-		    InitializeComponent();
+        UpdateMusicNotePath(Preferences.Get(MUSIC_NOTE_PATH_KEY, ""));
+        UpdateMusicSourcePath(Preferences.Get(MUSIC_SOURCE_PATH_KEY, ""));
+    }
 
-            UpdateMusicNotePath(Preferences.Get(MUSIC_NOTE_PATH_KEY, ""));
-            UpdateMusicSourcePath(Preferences.Get(MUSIC_SOURCE_PATH_KEY, ""));
-        }
-
-        private async void OnSelectSourceFolderClicked(object sender, EventArgs e)
+    private async void OnSelectSourceFolderClicked(object sender, EventArgs e)
+    {
+        try
         {
-            try
+            var folder = await FolderPicker.PickAsync(default);
+            if (folder.Folder != null)
             {
-                var folder = await FolderPicker.PickAsync(default);
-                if (folder.Folder != null)
-                {
-                    UpdateMusicSourcePath(folder.Folder.Path);
-                }
-            }
-            catch (Exception ex)
-            {
-
-
+                UpdateMusicSourcePath(folder.Folder.Path);
             }
         }
-
-        private async void OnSelectNoteFolderClicked(object sender, EventArgs e)
+        catch (Exception)
         {
-            try
-            {
-                var folder = await FolderPicker.PickAsync(default);
-                if (folder.Folder != null)
-                {
-                    UpdateMusicNotePath(folder.Folder.Path);
-                }
-            }
-            catch (Exception ex)
-            {
-
-
-            }
         }
+    }
 
-        private void UpdateMusicSourcePath(string path)
+    private async void OnSelectNoteFolderClicked(object sender, EventArgs e)
+    {
+        try
         {
-            Preferences.Set(MUSIC_SOURCE_PATH_KEY, path);
-            if (Path.Exists(path))
+            var folder = await FolderPicker.PickAsync(default);
+            if (folder.Folder != null)
             {
-                selectedSource.Text = "Music source path:\n" + path;
-            }
-            else
-            {
-                selectedSource.Text = "Select source path!";
+                UpdateMusicNotePath(folder.Folder.Path);
             }
         }
-
-        private void UpdateMusicNotePath(string path)
+        catch (Exception)
         {
-            Preferences.Set(MUSIC_NOTE_PATH_KEY, path);
-            if (Path.Exists(path))
-            {
-                selectedNote.Text = "Music note path:\n" + path;
-            }
-            else
-            {
-                selectedNote.Text = "Select note path!";
-            }
         }
+    }
 
-        //public async string ReadMarkdownFile(string fileName)
-        //{
-        //    string contentL = "";
+    private void UpdateMusicSourcePath(string path)
+    {
+        Preferences.Set(MUSIC_SOURCE_PATH_KEY, path);
+        if (Path.Exists(path))
+        {
+            selectedSource.Text = "Music source path:\n" + path;
+        }
+        else
+        {
+            selectedSource.Text = "Select source path!";
+        }
+    }
 
-        //    try
-        //    {
-        //        using (var stream = await FileSystem.OpenAppPackageFileAsync(fileName))
-        //        {
-        //            using (var reader = new StreamReader(stream))
-        //            {
-        //                contentL = await reader.ReadToEndAsync();
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"Ошибка при чтении файла: {ex.Message}");
-        //    }
-
-        //    return contentL;
-        //}
+    private void UpdateMusicNotePath(string path)
+    {
+        Preferences.Set(MUSIC_NOTE_PATH_KEY, path);
+        if (Path.Exists(path))
+        {
+            selectedNote.Text = "Music note path:\n" + path;
+        }
+        else
+        {
+            selectedNote.Text = "Select note path!";
+        }
     }
 }
