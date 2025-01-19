@@ -6,13 +6,91 @@
              xmlns:viewmodel="clr-namespace:MusicPlayer.ViewModel"
              x:DataType="viewmodel:MusicFileInfoViewModel"
              Appearing="ContentPage_Appearing">
-    <VerticalStackLayout>
-        <Label 
-            Text="{Binding FileName}"/>
-        <Label 
-            Text="{Binding MusicInfo}"/>
-        <Button
-            Text="Play"
-            Pressed="Button_Pressed"/>
-    </VerticalStackLayout>
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,1"
+                             EndPoint="1,1">
+            <GradientStop Color="Black"
+                          Offset="0.0"/>
+            <GradientStop Color="MidnightBlue"
+                          Offset="0.25"/>
+            <GradientStop Color="MidnightBlue"
+                          Offset="0.75"/>
+            <GradientStop Color="Black"
+                          Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    
+    <Border Padding="0,10,0,10"
+            Margin="1"
+            Stroke="White">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="30"/>
+        </Border.StrokeShape>
+
+        <StackLayout Orientation="Vertical">
+            <Label Text="{Binding FileName}"
+                   Padding="10,0,0,0"/>
+            
+            <Label Text="Authors: ..."
+                   Padding="10,0,0,0"/>
+
+            <Border Padding="0,20,0,10"
+                    Margin="0,10,0,10"
+                    Stroke="White"
+                    VerticalOptions="FillAndExpand">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="30"/>
+                </Border.StrokeShape>
+
+                <StackLayout Orientation="Vertical">
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="00:00"
+                               Margin="5,0,10,0"
+                               VerticalOptions="Center"/>
+                        
+                        <Slider HorizontalOptions="FillAndExpand"/>
+                        
+                        <Label Text="04:00"
+                               Margin="10,0,5,0"
+                               VerticalOptions="Center"/>
+                    </StackLayout>
+
+                    <Border Padding="0,10,0,10"
+                            Margin="0,10,0,10"
+                            Stroke="White"
+                            VerticalOptions="FillAndExpand">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="30"/>
+                        </Border.StrokeShape>
+
+                        <VerticalStackLayout Padding="10">
+                            <Label Text="{Binding MusicInfo}"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <StackLayout Orientation="Horizontal"
+                                 Margin="10,0,10,0">
+                        <Button Text="Prev"
+                                HorizontalOptions="StartAndExpand"/>
+                        
+                        <Button Text="Play"
+                                HorizontalOptions="CenterAndExpand"/>
+                        
+                        <Button Text="Next"
+                                HorizontalOptions="EndAndExpand"/>
+                    </StackLayout>
+                </StackLayout>
+            </Border>
+
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         Spacing="10">
+                <Button Text="Repeat"/>
+                
+                <Button Text="Random"/>
+                
+                <Button Text="Favourite"/>
+            </StackLayout>
+        </StackLayout>
+    </Border>
 </ContentPage>
