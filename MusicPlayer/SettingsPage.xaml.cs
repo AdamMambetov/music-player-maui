@@ -50,11 +50,11 @@ public partial class SettingsPage : ContentPage
         Preferences.Set(MUSIC_SOURCE_PATH_KEY, path);
         if (Path.Exists(path))
         {
-            selectedSource.Text = "Music source path:\n" + path;
+            selectedSource.Text = "Путь до музыки:\n" + path;
         }
         else
         {
-            selectedSource.Text = "Select source path!";
+            selectedSource.Text = "Выберите путь до музыки!";
         }
     }
 
@@ -63,11 +63,11 @@ public partial class SettingsPage : ContentPage
         Preferences.Set(MUSIC_NOTE_PATH_KEY, path);
         if (Path.Exists(path))
         {
-            selectedNote.Text = "Music note path:\n" + path;
+            selectedNote.Text = "Путь до заметок:\n" + path;
         }
         else
         {
-            selectedNote.Text = "Select note path!";
+            selectedNote.Text = "Выберите путь до заметок!";
         }
     }
 }

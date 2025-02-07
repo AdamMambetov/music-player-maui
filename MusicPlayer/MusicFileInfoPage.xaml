@@ -44,13 +44,15 @@
 
                 <StackLayout Orientation="Vertical">
                     <StackLayout Orientation="Horizontal">
-                        <Label Text="00:00"
+                        <Label x:Name="CurrentPosition"
+                               Text="0:00"
                                Margin="5,0,10,0"
                                VerticalOptions="Center"/>
                         
                         <Slider HorizontalOptions="FillAndExpand"/>
                         
-                        <Label Text="04:00"
+                        <Label x:Name="Duration"
+                               Text="-4:00"
                                Margin="10,0,5,0"
                                VerticalOptions="Center"/>
                     </StackLayout>
@@ -74,10 +76,12 @@
                                 HorizontalOptions="StartAndExpand"/>
                         
                         <Button Text="Play"
-                                HorizontalOptions="CenterAndExpand"/>
+                                HorizontalOptions="CenterAndExpand"
+                                Pressed="ButtonPlay_Pressed"/>
                         
                         <Button Text="Next"
-                                HorizontalOptions="EndAndExpand"/>
+                                HorizontalOptions="EndAndExpand"
+                                Pressed="ButtonNext_Pressed"/>
                     </StackLayout>
                 </StackLayout>
             </Border>
@@ -85,11 +89,14 @@
             <StackLayout Orientation="Horizontal"
                          HorizontalOptions="Center"
                          Spacing="10">
-                <Button Text="Repeat"/>
+                <Button Text="Repeat"
+                        Pressed="ButtonRepeat_Pressed"/>
                 
-                <Button Text="Random"/>
+                <Button Text="Random"
+                        Pressed="ButtonRandom_Pressed"/>
                 
-                <Button Text="Favourite"/>
+                <Button Text="Favourite"
+                        Pressed="ButtonFavourite_Pressed"/>
             </StackLayout>
         </StackLayout>
     </Border>

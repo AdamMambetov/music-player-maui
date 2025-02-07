@@ -2,14 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MusicPlayer.SettingsPage"
-             Title="SettingsPage">
+             Title="Настройки">
     <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
 
         <Label
                 x:Name="selectedSource"
@@ -17,7 +13,7 @@
                 SemanticProperties.HeadingLevel="Level2" />
 
         <Button
-                Text="Select new source path"
+                Text="Выбрать путь до музыки"
                 Clicked="OnSelectSourceFolderClicked"
                 HorizontalOptions="Fill" />
 
@@ -27,7 +23,7 @@
                 SemanticProperties.HeadingLevel="Level2" />
 
         <Button
-                Text="Select new note path"
+                Text="Выбрать путь до заметок"
                 Clicked="OnSelectNoteFolderClicked"
                 HorizontalOptions="Fill" />
     </VerticalStackLayout>

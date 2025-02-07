@@ -11,7 +11,7 @@ public partial class MusicFileInfoViewModel : ObservableObject
     [ObservableProperty]
     string musicInfo;
 
-    public MarkdownParser.MusicInfo? MusicFileInfo;
+    public MusicInfoMD? MusicFileInfo;
 
 
     public void UpdateMusicInfo()
@@ -21,18 +21,15 @@ public partial class MusicFileInfoViewModel : ObservableObject
             return;
 
         var info = File.ReadAllText($"{musicPath}/{FileName}");
-        var result = new MarkdownParser().ParseMarkdownWithYaml(info);
-        MusicFileInfo = result.musicInfo;
-        if (result.musicInfo != null)
+        MusicFileInfo = MarkdownParser.ParseMarkdownWithYaml(info).musicInfo;
+        if (MusicFileInfo != null)
         {
             MusicInfo = $"""
-            Name: {result.musicInfo.Name}
-            Created: {result.musicInfo.created}
-            Modified: {result.musicInfo.modified}
-            Artists: {result.musicInfo.artists.GetValue(0)}
-            SourceFile: {result.musicInfo.SourceFile}
-
-            {result.content}
+            Name: {MusicFileInfo.Name}
+            Created: {MusicFileInfo.created}
+            Modified: {MusicFileInfo.modified}
+            Artists: {MusicFileInfo.artists.GetValue(0)}
+            SourceFile: {MusicFileInfo.SourceFile}
             """;
         }
     }

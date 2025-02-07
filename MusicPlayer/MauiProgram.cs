@@ -19,8 +19,6 @@ public static class MauiProgram
             });
 
         builder.Services.AddSingleton(AudioManager.Current);
-
-        builder.Services.AddSingleton<MainViewModel>();
         builder.Services.AddSingleton<MusicFilesViewModel>();
 
         builder.Services.AddTransient<MusicFileInfoPage>();

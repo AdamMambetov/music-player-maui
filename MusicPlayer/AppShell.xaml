@@ -8,17 +8,12 @@
     Title="MusicPlayer">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
-    <ShellContent
-        Title="Settings"
-        ContentTemplate="{DataTemplate local:SettingsPage}"
-        Route="SettingsPage"/>
-
-    <ShellContent
-        Title="Music Files"
+        Title="Музыка"
         ContentTemplate="{DataTemplate local:MusicFilesPage}"
         Route="MusicFilesPage"/>
+
+    <ShellContent
+        Title="Настройки"
+        ContentTemplate="{DataTemplate local:SettingsPage}"
+        Route="SettingsPage"/>
 </Shell>

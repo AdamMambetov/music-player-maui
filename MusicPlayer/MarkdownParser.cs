@@ -4,20 +4,36 @@ using YamlDotNet.Serialization;
 
 namespace MusicPlayer;
 
+
+public class MusicInfoMD
+{
+    public DateTime created { get; set; }
+    public DateTime modified { get; set; }
+    public string Name { get; set; }
+    public string[] artists { get; set; }
+    public string SourceFile { get; set; }
+    public string[] aliases { get; set; }
+    public string[] tags { get; set; }
+
+    override public string ToString() => $"{created}, {modified}, {Name}, {artists}, {SourceFile}";
+}
+
+struct MusicInfo
+{
+    public MusicInfoMD info { get; set; }
+    public string note { get; set; }
+
+    public MusicInfo(in MusicInfoMD info, in string note)
+    {
+        this.info = info;
+        this.note = note;
+    }
+}
+
 public class MarkdownParser
 {
-    public class MusicInfo
-    {
-        public DateTime created { get; set; }
-        public DateTime modified { get; set; }
-        public string Name { get; set; }
-        public string[] artists { get; set; }
-        public string SourceFile { get; set; }
 
-        override public string ToString() => $"{created}, {modified}, {Name}, {artists}, {SourceFile}";
-    }
-
-    public (MusicInfo? musicInfo, string content) ParseMarkdownWithYaml(string markdown)
+    public static (MusicInfoMD? musicInfo, string content) ParseMarkdownWithYaml(string markdown)
     {
         try
         {
@@ -36,7 +52,7 @@ public class MarkdownParser
             var content = match.Groups[2].Value;
 
             // Десериализуем YAML в объект
-            var musicInfo = deserializer.Deserialize<MusicInfo>(yaml);
+            var musicInfo = deserializer.Deserialize<MusicInfoMD>(yaml);
             return (musicInfo, content);
         }
         catch (Exception ex)

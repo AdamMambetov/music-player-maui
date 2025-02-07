@@ -5,26 +5,26 @@ namespace MusicPlayer;
 
 public class AudioService
 {
-    private readonly IAudioManager audioManager;
-    private IAudioPlayer player;
+    private readonly IAudioManager _audioManager;
+    private IAudioPlayer? _player;
 
     public AudioService(IAudioManager audioManager)
     {
-        this.audioManager = audioManager;
+        this._audioManager = audioManager;
     }
 
     public void PlayFromStream(Stream audioStream)
     {
         try
         {
-            if (player != null)
+            if (_player != null)
             {
-                player.Stop();
-                player.Dispose();
+                _player.Stop();
+                _player.Dispose();
             }
 
-            player = audioManager.CreatePlayer(audioStream);
-            player.Play();
+            _player = _audioManager.CreatePlayer(audioStream);
+            _player.Play();
         }
         catch (System.Exception ex)
         {
@@ -36,16 +36,40 @@ public class AudioService
 
     public void Stop()
     {
-        player?.Stop();
+        _player?.Stop();
     }
 
     public void Pause()
     {
-        player?.Pause();
+        _player?.Pause();
     }
 
     public void Resume()
     {
-        player?.Play();
+        _player?.Play();
+    }
+
+    public bool GetIsPlaying()
+    {
+        return _player != null && _player.IsPlaying;
+    }
+
+    public bool GetIsRepeat()
+    {
+        return _player != null && _player.Loop;
+    }
+
+    public void SetIsRepeat(in bool value)
+    {
+        if (_player == null)
+            return;
+        _player.Loop = value;
+    }
+
+    public double GetDuration()
+    {
+        if (_player == null)
+            return 0.0;
+        return _player.Duration;
     }
 }
