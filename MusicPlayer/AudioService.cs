@@ -10,7 +10,7 @@ public class AudioService
 
     public AudioService(IAudioManager audioManager)
     {
-        this._audioManager = audioManager;
+        _audioManager = audioManager;
     }
 
     public void PlayFromStream(Stream audioStream)
@@ -26,7 +26,7 @@ public class AudioService
             _player = _audioManager.CreatePlayer(audioStream);
             _player.Play();
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Debug.WriteLine($"Ошибка воспроизведения: {ex.Message}");
             throw;
@@ -59,7 +59,7 @@ public class AudioService
         return _player != null && _player.Loop;
     }
 
-    public void SetIsRepeat(in bool value)
+    public void SetIsRepeat(bool value)
     {
         if (_player == null)
             return;
@@ -71,5 +71,21 @@ public class AudioService
         if (_player == null)
             return 0.0;
         return _player.Duration;
+    }
+
+    public double GetCurrentPosition()
+    {
+        if (_player == null)
+            return 0.0;
+        return _player.CurrentPosition;
+    }
+
+    public void Seek(double position)
+    {
+        if (_player == null)
+            return;
+        if (!_player.CanSeek)
+            return;
+        _player.Seek(position);
     }
 }

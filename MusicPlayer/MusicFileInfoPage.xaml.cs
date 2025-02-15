@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using MusicPlayer.Helpers;
 using MusicPlayer.ViewModel;
 using Plugin.Maui.Audio;
 
@@ -9,6 +10,8 @@ public partial class MusicFileInfoPage : ContentPage
     private MusicFileInfoViewModel _vm;
     private readonly AudioService _audioService;
     private bool _initialised;
+    private bool _sliderDragging;
+    private IDispatcherTimer _timer;
 
     public MusicFileInfoPage(MusicFileInfoViewModel vm, IAudioManager audioManager)
 	{
@@ -16,6 +19,7 @@ public partial class MusicFileInfoPage : ContentPage
 		BindingContext = vm;
         _vm = vm;
         _audioService = new AudioService(audioManager);
+        _timer = Dispatcher.CreateTimer();
     }
 
 
@@ -36,9 +40,53 @@ public partial class MusicFileInfoPage : ContentPage
             return;
         }
         _audioService.PlayFromStream(stream);
-        Duration.Text = $"{((int)_audioService.GetDuration()) / 60}:{((int)_audioService.GetDuration()) % 60}";
+
+        _timer.Interval = TimeSpan.FromMilliseconds(100);
+        _timer.Tick += OnTimerTickEvent;
+        _timer.Start();
+
+        _vm.PlayIcon = FontAwesomeHelper.Pause;
+        _vm.RepeatColor = Global.repeatPlay ? Colors.RoyalBlue : Colors.DarkSlateGray;
+        _vm.RandomColor = Global.randomPlay ? Colors.RoyalBlue : Colors.DarkSlateGray;
     }
 
+    private string DurationToTime(double duration)
+    {
+        var seconds = (int)duration % 60;
+        var minutes = (int)duration / 60;
+        var result = "";
+        result += minutes < 10 ? $"0{minutes}" : $"{minutes}";
+        result += ":";
+        result += seconds < 10 ? $"0{seconds}" : $"{seconds}";
+        return result;
+    }
+
+
+    private void OnTimerTickEvent(object? sender, EventArgs e)
+    {
+        if (_audioService == null)
+            return;
+
+        Duration.Text = DurationToTime(_audioService.GetDuration());
+        Slider.Maximum = _audioService.GetDuration();
+        _audioService.SetIsRepeat(Global.repeatPlay);
+        if (!_sliderDragging)
+        {
+            try
+            {
+                Slider.Value = _audioService.GetCurrentPosition();
+            }
+            catch (Exception error)
+            {
+                Debug.Print($"Ошибка! Слайдер затупил. {error.Message}");
+            }
+            CurrentPosition.Text = DurationToTime(_audioService.GetCurrentPosition());
+        }
+        else
+        {
+            CurrentPosition.Text = DurationToTime(Slider.Value);
+        }
+    }
 
     private void ContentPage_Appearing(object sender, EventArgs e)
     {
@@ -50,10 +98,15 @@ public partial class MusicFileInfoPage : ContentPage
     private void ButtonPlay_Pressed(object sender, EventArgs e)
     {
         if (_audioService.GetIsPlaying())
+        {
             _audioService.Pause();
+            _vm.PlayIcon = FontAwesomeHelper.Play;
+        }
         else
+        {
             _audioService.Resume();
-        Duration.Text = $"{((int)_audioService.GetDuration()) / 60}:{((int)_audioService.GetDuration()) % 60}";
+            _vm.PlayIcon = FontAwesomeHelper.Pause;
+        }
     }
 
     private void ButtonPrev_Pressed(object sender, EventArgs e)
@@ -65,14 +118,16 @@ public partial class MusicFileInfoPage : ContentPage
 
     }
 
-    private void ButtonRepeat_Pressed(object sender, EventArgs e)
+    private void RepeatButton_Pressed(object sender, EventArgs e)
     {
-        _audioService.SetIsRepeat(!_audioService.GetIsRepeat());
+        Global.repeatPlay = !Global.repeatPlay;
+        _vm.RepeatColor = Global.repeatPlay ? Colors.RoyalBlue : Colors.DarkSlateGray;
     }
 
-    private void ButtonRandom_Pressed(object sender, EventArgs e)
+    private void RandomButton_Pressed(object sender, EventArgs e)
     {
-
+        Global.randomPlay = !Global.randomPlay;
+        _vm.RandomColor = Global.randomPlay ? Colors.RoyalBlue : Colors.DarkSlateGray;
     }
 
     private void ButtonFavourite_Pressed(object sender, EventArgs e)
@@ -80,4 +135,21 @@ public partial class MusicFileInfoPage : ContentPage
 
     }
 
+    private void Slider_DragStarted(object sender, EventArgs e)
+    {
+        _sliderDragging = true;
+        _audioService.Pause();
+    }
+
+    private void Slider_DragCompleted(object sender, EventArgs e)
+    {
+        _audioService.Seek(Slider.Value);
+        _audioService.Resume();
+        _sliderDragging = false;
+    }
+
+    private void RankButton_Pressed(object sender, EventArgs e)
+    {
+
+    }
 }

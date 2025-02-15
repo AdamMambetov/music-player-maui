@@ -5,7 +5,9 @@
              Title="MusicFileInfoPage"
              xmlns:viewmodel="clr-namespace:MusicPlayer.ViewModel"
              x:DataType="viewmodel:MusicFileInfoViewModel"
-             Appearing="ContentPage_Appearing">
+             Shell.NavBarIsVisible="False"
+             Appearing="ContentPage_Appearing"
+             xmlns:helper="clr-namespace:MusicPlayer.Helpers">
     <ContentPage.Background>
         <LinearGradientBrush StartPoint="0,1"
                              EndPoint="1,1">
@@ -29,9 +31,11 @@
 
         <StackLayout Orientation="Vertical">
             <Label Text="{Binding FileName}"
+                   TextColor="White"
                    Padding="10,0,0,0"/>
-            
+
             <Label Text="Authors: ..."
+                   TextColor="White"
                    Padding="10,0,0,0"/>
 
             <Border Padding="0,20,0,10"
@@ -46,13 +50,18 @@
                     <StackLayout Orientation="Horizontal">
                         <Label x:Name="CurrentPosition"
                                Text="0:00"
+                               TextColor="White"
                                Margin="5,0,10,0"
                                VerticalOptions="Center"/>
                         
-                        <Slider HorizontalOptions="FillAndExpand"/>
+                        <Slider x:Name="Slider"
+                                HorizontalOptions="FillAndExpand"
+                                DragStarted="Slider_DragStarted"
+                                DragCompleted="Slider_DragCompleted"/>
                         
                         <Label x:Name="Duration"
                                Text="-4:00"
+                               TextColor="White"
                                Margin="10,0,5,0"
                                VerticalOptions="Center"/>
                     </StackLayout>
@@ -66,37 +75,91 @@
                         </Border.StrokeShape>
 
                         <VerticalStackLayout Padding="10">
-                            <Label Text="{Binding MusicInfo}"/>
+                            <Label Text="{Binding MusicInfo}"
+                                   TextColor="White"/>
                         </VerticalStackLayout>
                     </Border>
 
                     <StackLayout Orientation="Horizontal"
                                  Margin="10,0,10,0">
-                        <Button Text="Prev"
-                                HorizontalOptions="StartAndExpand"/>
-                        
-                        <Button Text="Play"
-                                HorizontalOptions="CenterAndExpand"
-                                Pressed="ButtonPlay_Pressed"/>
-                        
-                        <Button Text="Next"
-                                HorizontalOptions="EndAndExpand"
-                                Pressed="ButtonNext_Pressed"/>
+                        <ImageButton x:Name="PrevButton"
+                                     HorizontalOptions="StartAndExpand"
+                                     BackgroundColor="Transparent"
+                                     Pressed="ButtonPrev_Pressed">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="FAS"
+                                                 Glyph="{x:Static helper:FontAwesomeHelper.BackwardStep}"
+                                                 Color="RoyalBlue"/>
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                        <ImageButton x:Name="PlayButton"
+                                     HorizontalOptions="CenterAndExpand"
+                                     BackgroundColor="Transparent"
+                                     Pressed="ButtonPlay_Pressed">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="FAS"
+                                                 Glyph="{Binding PlayIcon}"
+                                                 Color="RoyalBlue"/>
+                            </ImageButton.Source>
+                        </ImageButton>
+
+                        <ImageButton x:Name="NextButton"
+                                     BackgroundColor="Transparent"
+                                     HorizontalOptions="EndAndExpand"
+                                     Pressed="ButtonNext_Pressed">
+                            <ImageButton.Source>
+                                <FontImageSource FontFamily="FAS"
+                                                 Glyph="{x:Static helper:FontAwesomeHelper.ForwardStep}"
+                                                 Color="RoyalBlue"/>
+                            </ImageButton.Source>
+                        </ImageButton>
                     </StackLayout>
                 </StackLayout>
             </Border>
 
             <StackLayout Orientation="Horizontal"
                          HorizontalOptions="Center"
-                         Spacing="10">
-                <Button Text="Repeat"
-                        Pressed="ButtonRepeat_Pressed"/>
-                
-                <Button Text="Random"
-                        Pressed="ButtonRandom_Pressed"/>
-                
-                <Button Text="Favourite"
-                        Pressed="ButtonFavourite_Pressed"/>
+                         Spacing="20">
+                <ImageButton x:Name="RepeatButton"
+                             BackgroundColor="Transparent"
+                             Pressed="RepeatButton_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="FAS"
+                                         Glyph="{x:Static helper:FontAwesomeHelper.Repeat}"
+                                         Color="{Binding RepeatColor}"/>
+                    </ImageButton.Source>
+                </ImageButton>
+
+                <ImageButton x:Name="RandomButton"
+                             BackgroundColor="Transparent"
+                             Pressed="RandomButton_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="FAS"
+                                         Glyph="{x:Static helper:FontAwesomeHelper.Shuffle}"
+                                         Color="{Binding RandomColor}"/>
+                    </ImageButton.Source>
+                </ImageButton>
+
+                <ImageButton x:Name="FavouriteButton"
+                             BackgroundColor="Transparent"
+                             Pressed="ButtonFavourite_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="FAS"
+                                         Glyph="{x:Static helper:FontAwesomeHelper.Heart}"
+                                         Color="RoyalBlue"/>
+                    </ImageButton.Source>
+                </ImageButton>
+
+                <ImageButton x:Name="RankButton"
+                             BackgroundColor="Transparent"
+                             Pressed="RankButton_Pressed">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="FAS"
+                                         Glyph="{x:Static helper:FontAwesomeHelper.ScaleBalanced}"
+                                         Color="DarkSlateGray"/>
+                    </ImageButton.Source>
+                </ImageButton>
             </StackLayout>
         </StackLayout>
     </Border>

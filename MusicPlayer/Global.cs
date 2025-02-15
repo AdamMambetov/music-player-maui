@@ -2,18 +2,7 @@
 
 class Global
 {
-    private static Global _instance;
-
     public MusicInfo musicInfo { get; set; }
-
-
-    Global()
-    {
-        _instance = this;
-    }
-
-    public static Global Get()
-    {
-        return _instance;
-    }
+    public static bool randomPlay { get; set; }
+    public static bool repeatPlay { get; set; }
 }

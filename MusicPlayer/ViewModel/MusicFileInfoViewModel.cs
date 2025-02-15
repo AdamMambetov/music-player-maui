@@ -11,6 +11,15 @@ public partial class MusicFileInfoViewModel : ObservableObject
     [ObservableProperty]
     string musicInfo;
 
+    [ObservableProperty]
+    string playIcon;
+
+    [ObservableProperty]
+    Color repeatColor;
+
+    [ObservableProperty]
+    Color randomColor;
+
     public MusicInfoMD? MusicFileInfo;
 
 
