@@ -59,7 +59,7 @@
                                 DragCompleted="Slider_DragCompleted"/>
                         
                         <Label x:Name="Duration"
-                               Text="-4:00"
+                               Text="4:00"
                                TextColor="White"
                                Margin="10,0,5,0"
                                VerticalOptions="Center"/>
@@ -86,8 +86,8 @@
                                      BackgroundColor="Transparent"
                                      Pressed="ButtonPrev_Pressed">
                             <ImageButton.Source>
-                                <FontImageSource FontFamily="FAS"
-                                                 Glyph="{x:Static helper:FontAwesomeHelper.BackwardStep}"
+                                <FontImageSource FontFamily="MaterialIcons"
+                                                 Glyph="{x:Static helper:MaterialIconsHelper.Skip_previous}"
                                                  Color="RoyalBlue"/>
                             </ImageButton.Source>
                         </ImageButton>
@@ -97,7 +97,7 @@
                                      BackgroundColor="Transparent"
                                      Pressed="ButtonPlay_Pressed">
                             <ImageButton.Source>
-                                <FontImageSource FontFamily="FAS"
+                                <FontImageSource FontFamily="MaterialIcons"
                                                  Glyph="{Binding PlayIcon}"
                                                  Color="RoyalBlue"/>
                             </ImageButton.Source>
@@ -108,8 +108,8 @@
                                      HorizontalOptions="EndAndExpand"
                                      Pressed="ButtonNext_Pressed">
                             <ImageButton.Source>
-                                <FontImageSource FontFamily="FAS"
-                                                 Glyph="{x:Static helper:FontAwesomeHelper.ForwardStep}"
+                                <FontImageSource FontFamily="MaterialIcons"
+                                                 Glyph="{x:Static helper:MaterialIconsHelper.Skip_next}"
                                                  Color="RoyalBlue"/>
                             </ImageButton.Source>
                         </ImageButton>
@@ -124,8 +124,8 @@
                              BackgroundColor="Transparent"
                              Pressed="RepeatButton_Pressed">
                     <ImageButton.Source>
-                        <FontImageSource FontFamily="FAS"
-                                         Glyph="{x:Static helper:FontAwesomeHelper.Repeat}"
+                        <FontImageSource FontFamily="MaterialIcons"
+                                         Glyph="{x:Static helper:MaterialIconsHelper.Repeat}"
                                          Color="{Binding RepeatColor}"/>
                     </ImageButton.Source>
                 </ImageButton>
@@ -134,8 +134,8 @@
                              BackgroundColor="Transparent"
                              Pressed="RandomButton_Pressed">
                     <ImageButton.Source>
-                        <FontImageSource FontFamily="FAS"
-                                         Glyph="{x:Static helper:FontAwesomeHelper.Shuffle}"
+                        <FontImageSource FontFamily="MaterialIcons"
+                                         Glyph="{x:Static helper:MaterialIconsHelper.Shuffle}"
                                          Color="{Binding RandomColor}"/>
                     </ImageButton.Source>
                 </ImageButton>
@@ -144,8 +144,8 @@
                              BackgroundColor="Transparent"
                              Pressed="ButtonFavourite_Pressed">
                     <ImageButton.Source>
-                        <FontImageSource FontFamily="FAS"
-                                         Glyph="{x:Static helper:FontAwesomeHelper.Heart}"
+                        <FontImageSource FontFamily="MaterialIcons"
+                                         Glyph="{x:Static helper:MaterialIconsHelper.Favorite}"
                                          Color="RoyalBlue"/>
                     </ImageButton.Source>
                 </ImageButton>
@@ -154,8 +154,8 @@
                              BackgroundColor="Transparent"
                              Pressed="RankButton_Pressed">
                     <ImageButton.Source>
-                        <FontImageSource FontFamily="FAS"
-                                         Glyph="{x:Static helper:FontAwesomeHelper.ScaleBalanced}"
+                        <FontImageSource FontFamily="MaterialIcons"
+                                         Glyph="{x:Static helper:MaterialIconsHelper.Radio_button_unchecked}"
                                          Color="DarkSlateGray"/>
                     </ImageButton.Source>
                 </ImageButton>

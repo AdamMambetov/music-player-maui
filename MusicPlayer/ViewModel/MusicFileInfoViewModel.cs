@@ -23,7 +23,6 @@ public partial class MusicFileInfoViewModel : ObservableObject
     Color randomColor;
 
 
-
     public void UpdateMusicInfo()
     {
         var info = Global.musicInfo.info;

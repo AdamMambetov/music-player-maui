@@ -50,7 +50,7 @@ public partial class MusicFileInfoPage : ContentPage
         _timer.Tick += OnTimerTickEvent;
         _timer.Start();
 
-        _vm.PlayIcon = FontAwesomeHelper.Pause;
+        _vm.PlayIcon = MaterialIconsHelper.Pause_circle;
         _vm.RepeatColor = Global.repeatPlay ? Colors.RoyalBlue : Colors.DarkSlateGray;
         _vm.RandomColor = Global.randomPlay ? Colors.RoyalBlue : Colors.DarkSlateGray;
 
@@ -100,12 +100,12 @@ public partial class MusicFileInfoPage : ContentPage
         if (_audioService.GetIsPlaying())
         {
             _audioService.Pause();
-            _vm.PlayIcon = FontAwesomeHelper.Play;
+            _vm.PlayIcon = MaterialIconsHelper.Play_circle;
         }
         else
         {
             _audioService.Resume();
-            _vm.PlayIcon = FontAwesomeHelper.Pause;
+            _vm.PlayIcon = MaterialIconsHelper.Pause_circle;
         }
     }
 
