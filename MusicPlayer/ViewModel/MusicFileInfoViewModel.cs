@@ -2,11 +2,13 @@
 
 namespace MusicPlayer.ViewModel;
 
-[QueryProperty("FileName", "FileName")]
 public partial class MusicFileInfoViewModel : ObservableObject
 {
     [ObservableProperty]
-    string fileName;
+    string name;
+
+    [ObservableProperty]
+    string artists;
 
     [ObservableProperty]
     string musicInfo;
@@ -20,26 +22,21 @@ public partial class MusicFileInfoViewModel : ObservableObject
     [ObservableProperty]
     Color randomColor;
 
-    public MusicInfoMD? MusicFileInfo;
 
 
     public void UpdateMusicInfo()
     {
-        var musicPath = Preferences.Get("music_player.music_note_path", "");
-        if (!Path.Exists(musicPath))
-            return;
+        var info = Global.musicInfo.info;
 
-        var info = File.ReadAllText($"{musicPath}/{FileName}");
-        MusicFileInfo = MarkdownParser.ParseMarkdownWithYaml(info).musicInfo;
-        if (MusicFileInfo != null)
-        {
-            MusicInfo = $"""
-            Name: {MusicFileInfo.Name}
-            Created: {MusicFileInfo.created}
-            Modified: {MusicFileInfo.modified}
-            Artists: {MusicFileInfo.artists.GetValue(0)}
-            SourceFile: {MusicFileInfo.SourceFile}
-            """;
-        }
+        Name = info.Name;
+        Artists = info.ArtistsToString();
+
+        MusicInfo = $"""
+        Created: {info.created}
+        Modified: {info.modified}
+        Artists: {Artists}
+        Album: {MarkdownParser.RefToString(info.Album)}
+        SourceFile: {MarkdownParser.RefToString(info.SourceFile)}
+        """;
     }
 }

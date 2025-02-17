@@ -14,8 +14,9 @@ public partial class MusicFilesPage : ContentPage
         _vm = vm;
 	}
 
-    private void ContentPage_Appearing(object sender, EventArgs e)
+    protected override void OnAppearing()
     {
+        base.OnAppearing();
         _vm.RescanMusic();
     }
 }

@@ -6,7 +6,6 @@
              xmlns:viewmodel="clr-namespace:MusicPlayer.ViewModel"
              x:DataType="viewmodel:MusicFileInfoViewModel"
              Shell.NavBarIsVisible="False"
-             Appearing="ContentPage_Appearing"
              xmlns:helper="clr-namespace:MusicPlayer.Helpers">
     <ContentPage.Background>
         <LinearGradientBrush StartPoint="0,1"
@@ -30,11 +29,11 @@
         </Border.StrokeShape>
 
         <StackLayout Orientation="Vertical">
-            <Label Text="{Binding FileName}"
+            <Label Text="{Binding Name}"
                    TextColor="White"
                    Padding="10,0,0,0"/>
 
-            <Label Text="Authors: ..."
+            <Label Text="{Binding Artists}"
                    TextColor="White"
                    Padding="10,0,0,0"/>
 

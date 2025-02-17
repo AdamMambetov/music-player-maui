@@ -22,21 +22,26 @@ public partial class MusicFileInfoPage : ContentPage
         _timer = Dispatcher.CreateTimer();
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _vm.UpdateMusicInfo();
+        if (!_initialised)
+            Init();
+    }
 
     public void Init()
     {
-        if (_vm.MusicFileInfo == null)
-            return;
-
-        var sourceFile = _vm.MusicFileInfo.SourceFile.Replace("[[", "").Replace("]]", "");
+        var sourceFile = MarkdownParser.RefToString(Global.musicInfo.info.SourceFile);
         var musicSourcePath = Preferences.Get("music_player.music_source_path", "");
-        if (!Path.Exists($"{musicSourcePath}/{sourceFile}"))
+        musicSourcePath = Path.Combine(musicSourcePath, sourceFile);
+        if (!Path.Exists(musicSourcePath))
             return;
 
-        var stream = File.OpenRead($"{musicSourcePath}/{sourceFile}");
+        var stream = File.OpenRead(musicSourcePath);
         if (stream == null)
         {
-            Debug.WriteLine($"Ошибка! Не удалось прочитать файл музыки '{musicSourcePath}/{sourceFile}'");
+            Debug.WriteLine($"Ошибка! Не удалось прочитать файл музыки '{musicSourcePath}'");
             return;
         }
         _audioService.PlayFromStream(stream);
@@ -48,6 +53,8 @@ public partial class MusicFileInfoPage : ContentPage
         _vm.PlayIcon = FontAwesomeHelper.Pause;
         _vm.RepeatColor = Global.repeatPlay ? Colors.RoyalBlue : Colors.DarkSlateGray;
         _vm.RandomColor = Global.randomPlay ? Colors.RoyalBlue : Colors.DarkSlateGray;
+
+        _initialised = true;
     }
 
     private string DurationToTime(double duration)
@@ -86,13 +93,6 @@ public partial class MusicFileInfoPage : ContentPage
         {
             CurrentPosition.Text = DurationToTime(Slider.Value);
         }
-    }
-
-    private void ContentPage_Appearing(object sender, EventArgs e)
-    {
-        _vm.UpdateMusicInfo();
-        if (!_initialised)
-            Init();
     }
 
     private void ButtonPlay_Pressed(object sender, EventArgs e)

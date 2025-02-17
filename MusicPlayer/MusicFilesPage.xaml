@@ -4,23 +4,35 @@
              x:Class="MusicPlayer.MusicFilesPage"
              Title="MusicFilesPage"
              xmlns:viewmodel="clr-namespace:MusicPlayer.ViewModel"
-             x:DataType="viewmodel:MusicFilesViewModel"
-             Appearing="ContentPage_Appearing">
+             x:DataType="viewmodel:MusicFilesViewModel">
     
     <CollectionView ItemsSource="{Binding Items}">
         <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="{x:Type x:String}">
-                <Grid Padding="0,5">
-                    <Frame>
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer 
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MusicFilesViewModel}}, Path=TapCommand}"
-                                CommandParameter="{Binding .}"/>
-                        </Frame.GestureRecognizers>
-                        <Label Text="{Binding .}"
-                            FontSize="24"/>
-                    </Frame>
-                </Grid>
+            <DataTemplate x:DataType="viewmodel:MusicFileItem">
+                <Frame BorderColor="White">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer 
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MusicFilesViewModel}}, Path=TapCommand}"
+                            CommandParameter="{Binding .}"/>
+                    </Frame.GestureRecognizers>
+                    
+                    <Grid RowDefinitions="auto,auto,auto"
+                          ColumnDefinitions="auto,auto">
+                        <Image Source="{Binding AlbumCover}"
+                               Grid.RowSpan="3"
+                               WidthRequest="60"
+                               HeightRequest="60"
+                               Aspect="Fill"/>
+                        <Label Text="{Binding Name}"
+                               Grid.Column="1"/>
+                        <Label Text="{Binding Artists}"
+                               Grid.Column="1"
+                               Grid.Row="1"/>
+                        <Label Text="{Binding Album}"
+                               Grid.Column="1"
+                               Grid.Row="2"/>
+                    </Grid>
+                </Frame>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>

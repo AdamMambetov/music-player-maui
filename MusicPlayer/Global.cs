@@ -1,8 +1,9 @@
 ﻿namespace MusicPlayer;
 
-class Global
+static class Global
 {
-    public MusicInfo musicInfo { get; set; }
+    public static MusicInfo[] allMusicInfos { get; set; }
+    public static MusicInfo musicInfo { get; set; }
     public static bool randomPlay { get; set; }
     public static bool repeatPlay { get; set; }
 }
