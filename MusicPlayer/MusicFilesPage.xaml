@@ -5,35 +5,39 @@
              Title="MusicFilesPage"
              xmlns:viewmodel="clr-namespace:MusicPlayer.ViewModel"
              x:DataType="viewmodel:MusicFilesViewModel">
-    
-    <CollectionView ItemsSource="{Binding Items}">
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="viewmodel:MusicFileItem">
-                <Frame BorderColor="White">
-                    <Frame.GestureRecognizers>
-                        <TapGestureRecognizer 
-                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MusicFilesViewModel}}, Path=TapCommand}"
-                            CommandParameter="{Binding .}"/>
-                    </Frame.GestureRecognizers>
-                    
-                    <Grid RowDefinitions="auto,auto,auto"
-                          ColumnDefinitions="auto,auto">
-                        <Image Source="{Binding AlbumCover}"
-                               Grid.RowSpan="3"
-                               WidthRequest="60"
-                               HeightRequest="60"
-                               Aspect="Fill"/>
-                        <Label Text="{Binding Name}"
-                               Grid.Column="1"/>
-                        <Label Text="{Binding Artists}"
-                               Grid.Column="1"
-                               Grid.Row="1"/>
-                        <Label Text="{Binding Album}"
-                               Grid.Column="1"
-                               Grid.Row="2"/>
-                    </Grid>
-                </Frame>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding RescanMusicCommand}">
+        <CollectionView ItemsSource="{Binding Items}"
+                        EmptyView="Нет треков"
+                        ItemsUpdatingScrollMode="KeepScrollOffset">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="viewmodel:MusicInfo">
+                    <Frame BorderColor="White">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MusicFilesViewModel}}, Path=TapCommand}"
+                                CommandParameter="{Binding .}"/>
+                        </Frame.GestureRecognizers>
+
+                        <Grid RowDefinitions="auto,auto,auto"
+                              ColumnDefinitions="auto,auto">
+                            <Image Source="{Binding AlbumCover}"
+                                   Grid.RowSpan="3"
+                                   WidthRequest="60"
+                                   HeightRequest="60"
+                                   Aspect="Fill"/>
+                            <Label Text="{Binding Info.Name}"
+                                   Grid.Column="1"/>
+                            <Label Text="{Binding ArtistsString}"
+                                   Grid.Column="1"
+                                   Grid.Row="1"/>
+                            <Label Text="{Binding AlbumString}"
+                                   Grid.Column="1"
+                                   Grid.Row="2"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
 </ContentPage>

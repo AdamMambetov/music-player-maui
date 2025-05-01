@@ -1,10 +1,11 @@
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using MusicPlayer.ViewModel;
 
 namespace MusicPlayer;
 
 public partial class MusicFilesPage : ContentPage
 {
-    MusicFilesViewModel _vm;
+    private readonly MusicFilesViewModel _vm;
 
 
     public MusicFilesPage(MusicFilesViewModel vm)
@@ -12,11 +13,15 @@ public partial class MusicFilesPage : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
         _vm = vm;
-	}
+		_vm.IsRefreshing = true;
+    }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        _vm.RescanMusic();
+
+#if WINDOWS
+        _vm.IsRefreshing = true;
+#endif
     }
 }

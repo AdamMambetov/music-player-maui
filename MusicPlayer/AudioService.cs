@@ -3,15 +3,13 @@ using System.Diagnostics;
 
 namespace MusicPlayer;
 
-public class AudioService
+public class AudioService(IAudioManager audioManager)
 {
-    private readonly IAudioManager _audioManager;
+    private readonly IAudioManager _audioManager = audioManager;
     private IAudioPlayer? _player;
 
-    public AudioService(IAudioManager audioManager)
-    {
-        _audioManager = audioManager;
-    }
+    public bool IsAudioLoaded { get => GetDuration() != 0; }
+    public bool IsAudioPlayerValid { get => _player != null; }
 
     public void PlayFromStream(Stream audioStream)
     {
@@ -34,19 +32,22 @@ public class AudioService
     }
 
 
-    public void Stop()
+    public void Stop() => _player?.Stop();
+    public void Pause() => _player?.Pause();
+    public void Resume() => _player?.Play();
+
+    public void BindToEndedEvent(EventHandler func)
     {
-        _player?.Stop();
+        if (_player == null)
+            return;
+        _player.PlaybackEnded += func;
     }
 
-    public void Pause()
+    public void UnbindFromEndedEvent(EventHandler func)
     {
-        _player?.Pause();
-    }
-
-    public void Resume()
-    {
-        _player?.Play();
+        if (_player == null)
+            return;
+        _player.PlaybackEnded -= func;
     }
 
     public bool GetIsPlaying()
@@ -66,19 +67,9 @@ public class AudioService
         _player.Loop = value;
     }
 
-    public double GetDuration()
-    {
-        if (_player == null)
-            return 0.0;
-        return _player.Duration;
-    }
+    public double GetDuration() => _player == null ? 0.0 : _player.Duration;
 
-    public double GetCurrentPosition()
-    {
-        if (_player == null)
-            return 0.0;
-        return _player.CurrentPosition;
-    }
+    public double GetCurrentPosition() => _player == null ? 0.0 : _player.CurrentPosition;
 
     public void Seek(double position)
     {
@@ -87,5 +78,14 @@ public class AudioService
         if (!_player.CanSeek)
             return;
         _player.Seek(position);
+    }
+
+    public void Dispose()
+    {
+        if (_player == null)
+            return;
+        _player.Stop();
+        _player.Dispose();
+        _player = null;
     }
 }

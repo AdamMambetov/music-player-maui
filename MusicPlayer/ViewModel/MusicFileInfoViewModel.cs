@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MusicPlayer.Helpers;
 
 namespace MusicPlayer.ViewModel;
 
 public partial class MusicFileInfoViewModel : ObservableObject
 {
     [ObservableProperty]
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
     string name;
 
     [ObservableProperty]
@@ -21,21 +23,20 @@ public partial class MusicFileInfoViewModel : ObservableObject
 
     [ObservableProperty]
     Color randomColor;
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
 
     public void UpdateMusicInfo()
     {
-        var info = Global.musicInfo.info;
-
-        Name = info.Name;
-        Artists = info.ArtistsToString();
+        Name = Global.MusicInfo.Info.Name;
+        Artists = Global.MusicInfo.ArtistsString;
 
         MusicInfo = $"""
-        Created: {info.created}
-        Modified: {info.modified}
+        Created: {Global.MusicInfo.Info.created}
+        Modified: {Global.MusicInfo.Info.modified}
         Artists: {Artists}
-        Album: {MarkdownParser.RefToString(info.Album)}
-        SourceFile: {MarkdownParser.RefToString(info.SourceFile)}
+        Album: {Global.MusicInfo.AlbumString}
+        SourceFile: {Global.MusicInfo.Info.SourceFile.RefToString()}
         """;
     }
 }
