@@ -84,7 +84,7 @@
                         <ImageButton x:Name="PrevButton"
                                      HorizontalOptions="StartAndExpand"
                                      BackgroundColor="Transparent"
-                                     Pressed="ButtonPrev_Pressed">
+                                     Command="{Binding PlayCommand}">
                             <ImageButton.Source>
                                 <FontImageSource FontFamily="MaterialIcons"
                                                  Glyph="{x:Static helper:MaterialIconsHelper.Skip_previous}"
@@ -95,7 +95,7 @@
                         <ImageButton x:Name="PlayButton"
                                      HorizontalOptions="CenterAndExpand"
                                      BackgroundColor="Transparent"
-                                     Pressed="ButtonPlay_Pressed">
+                                     Command="{Binding PlayCommand}">
                             <ImageButton.Source>
                                 <FontImageSource FontFamily="MaterialIcons"
                                                  Glyph="{Binding PlayIcon}"

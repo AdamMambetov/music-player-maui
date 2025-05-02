@@ -51,7 +51,7 @@ public class MusicInfoMD
     [SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
     public DateTime modified { get; set; }
     public string Name { get; set; }
-    public string[] Artists { get; set; }
+    public string[] creator { get; set; }
     public string SourceFile { get; set; }
     [SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
     public string[] aliases { get; set; }
@@ -70,7 +70,7 @@ public class MusicInfoMD
     public const int EMPTY_YEAR = 0;
 
 
-    public override string ToString() => $"{created}, {modified}, {Name}, {Artists.ToStr()}, {SourceFile}, " +
+    public override string ToString() => $"{created}, {modified}, {Name}, {creator.ToStr()}, {SourceFile}, " +
         $"{aliases.ToStr()}, {tags?.ToStr()}, {Cover}, {Year}, {source}, {Album}";
 
 }
@@ -78,7 +78,8 @@ public class MusicInfoMD
 
 public static class StringExtenstions
 {
-    public static string RefToString(this string s) => s.Replace("[[", "").Replace("]]", "");
+    public static string RefToString(this string s) => s == null ? "" : s.Replace("[[", "").Replace("]]", "");
+
     public static string StringToRef(this string s) => $"[[{s}]]";
 
     public static void FromRef(ref string s)

@@ -5,7 +5,7 @@ namespace MusicPlayer;
 static class Global
 {
     public static MusicInfo[] AllMusicInfos { get; set; } = [];
-    public static MusicInfo[] MusicQueue { get; set; } = [];
+    public static string[] MusicNotesQueue { get; set; } = [];
     public static MusicInfo MusicInfo { get; set; } = new MusicInfo();
     public static bool RandomPlay
     { 
@@ -52,34 +52,34 @@ static class Global
         SortKey = sortKey;
         SortDescending = descending;
 
-        switch (sortKey)
-        {
-            case EMusicProperty.Name:
-                MusicQueue = descending
-                    ? AllMusicInfos.OrderByDescending((music) => music.Info.Name).ToArray()
-                    : AllMusicInfos.OrderBy((music) => music.Info.Name).ToArray();
-                break;
-            case EMusicProperty.Created:
-                MusicQueue = descending
-                    ? AllMusicInfos.OrderByDescending((music) => music.Info.created).ToArray()
-                    : AllMusicInfos.OrderBy((music) => music.Info.created).ToArray();
-                break;
-            case EMusicProperty.Modified:
-                MusicQueue = descending
-                    ? AllMusicInfos.OrderByDescending((music) => music.Info.modified).ToArray()
-                    : AllMusicInfos.OrderBy((music) => music.Info.modified).ToArray();
-                break;
-            case EMusicProperty.Artist:
-                MusicQueue = descending
-                    ? AllMusicInfos.OrderByDescending((music) => music.ArtistsString).ToArray()
-                    : AllMusicInfos.OrderBy((music) => music.ArtistsString).ToArray();
-                break;
-            case EMusicProperty.Album:
-                MusicQueue = descending
-                    ? AllMusicInfos.OrderByDescending((music) => music.AlbumString).ToArray()
-                    : AllMusicInfos.OrderBy((music) => music.AlbumString).ToArray();
-                break;
-        }
+        //switch (sortKey)
+        //{
+        //    case EMusicProperty.Name:
+        //        MusicQueue = descending
+        //            ? AllMusicInfos.OrderByDescending((music) => music.Info.Name).ToArray()
+        //            : AllMusicInfos.OrderBy((music) => music.Info.Name).ToArray();
+        //        break;
+        //    case EMusicProperty.Created:
+        //        MusicQueue = descending
+        //            ? AllMusicInfos.OrderByDescending((music) => music.Info.created).ToArray()
+        //            : AllMusicInfos.OrderBy((music) => music.Info.created).ToArray();
+        //        break;
+        //    case EMusicProperty.Modified:
+        //        MusicQueue = descending
+        //            ? AllMusicInfos.OrderByDescending((music) => music.Info.modified).ToArray()
+        //            : AllMusicInfos.OrderBy((music) => music.Info.modified).ToArray();
+        //        break;
+        //    case EMusicProperty.Artist:
+        //        MusicQueue = descending
+        //            ? AllMusicInfos.OrderByDescending((music) => music.ArtistsString).ToArray()
+        //            : AllMusicInfos.OrderBy((music) => music.ArtistsString).ToArray();
+        //        break;
+        //    case EMusicProperty.Album:
+        //        MusicQueue = descending
+        //            ? AllMusicInfos.OrderByDescending((music) => music.AlbumString).ToArray()
+        //            : AllMusicInfos.OrderBy((music) => music.AlbumString).ToArray();
+        //        break;
+        //}
     }
 }
 

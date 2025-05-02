@@ -21,6 +21,9 @@ public static class MauiProgram
                 fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
             });
 
+#if ANDROID
+        builder.Services.AddSingleton<INotificationManagerService, Platforms.Android.NotificationManagerService>();
+#endif
         builder.Services.AddSingleton(AudioManager.Current);
         builder.Services.AddSingleton<MusicFilesViewModel>();
 

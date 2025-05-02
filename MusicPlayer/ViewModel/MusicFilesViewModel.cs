@@ -25,15 +25,8 @@ public partial class MusicFilesViewModel : ObservableObject
     [RelayCommand]
     async Task Tap(MusicInfo item)
     {
-        foreach (var el in Global.AllMusicInfos)
-        {
-            if (el.Note == item.Note)
-            {
-                Global.MusicInfo = el;
-                await Shell.Current.GoToAsync(nameof(MusicFileInfoPage));
-                break;
-            }
-        }
+        Global.MusicInfo = Array.Find(Global.AllMusicInfos, (info) => info.Note == item.Note);
+        await Shell.Current.GoToAsync(nameof(MusicFileInfoPage));
     }
 
     [RelayCommand]
@@ -78,8 +71,9 @@ public partial class MusicFilesViewModel : ObservableObject
         RescanMusicWorker.RunWorkerCompleted += (s, e) =>
         {
             Global.AllMusicInfos = TempItems.ToArray();
-            Global.UpdateMusicQueue(EMusicProperty.Created, descending: true);
-            Items = Global.MusicQueue.ToObservableCollection();
+            //Global.UpdateMusicQueue(EMusicProperty.Created, descending: true);
+            //Items = Global.MusicQueue.ToObservableCollection();
+            Items = Global.AllMusicInfos.ToObservableCollection();
             IsRefreshing = false;
         };
         RescanMusicWorker.RunWorkerAsync();
@@ -107,7 +101,9 @@ public struct MusicInfo
     public readonly string ArtistsToString()
     {
         string result = "";
-        foreach (var artist in Info.Artists)
+        if (Info.creator == null || Info.creator.Length == 0)
+            return MusicInfoMD.EMPTY_ARTIST;
+        foreach (var artist in Info.creator)
             result += $"{artist.RefToString()}; ";
         return result.TrimEnd("; ".ToCharArray());
     }

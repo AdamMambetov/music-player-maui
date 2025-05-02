@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.Maui.Controls;
 using MusicPlayer.Helpers;
 using MusicPlayer.ViewModel;
 using Plugin.Maui.Audio;
@@ -8,20 +9,20 @@ namespace MusicPlayer;
 public partial class MusicFileInfoPage : ContentPage
 {
     private readonly MusicFileInfoViewModel _vm;
-    private readonly AudioService _audioService;
-    private readonly IDispatcherTimer _timer;
-    private bool _sliderDragging;
+    private readonly AudioService AudioService;
 
 
-    public MusicFileInfoPage(MusicFileInfoViewModel vm, IAudioManager audioManager)
+    public MusicFileInfoPage(MusicFileInfoViewModel vm, IAudioManager audioManager, INotificationManagerService notificationManager)
 	{
 		InitializeComponent();
 		BindingContext = vm;
         _vm = vm;
-        _audioService = new AudioService(audioManager);
-        _timer = Dispatcher.CreateTimer();
+        _vm.AudioService = new AudioService(audioManager);
+        _vm.Timer = Dispatcher.CreateTimer();
+        _vm.NotificationManager = notificationManager;
+        _vm.NotificationManager.SendNotification("", "");
 
-        Init();
+        _vm.Init();
     }
 
 
@@ -34,40 +35,7 @@ public partial class MusicFileInfoPage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        _timer.Stop();
-        _audioService.Dispose();
-    }
-
-
-    private void Init()
-    {
-        var sourceFilePath = Path.Combine(Global.MusicPath, Global.MusicInfo.Info.SourceFile.RefToString());
-        if (!Path.Exists(sourceFilePath))
-            return;
-
-        var stream = File.OpenRead(sourceFilePath);
-        if (stream == null)
-        {
-            Debug.WriteLine($"Ошибка! Не удалось прочитать файл музыки '{sourceFilePath}'");
-            return;
-        }
-        if (_audioService.IsAudioPlayerValid)
-            _audioService.UnbindFromEndedEvent(OnAudioEnded);
-        _audioService.PlayFromStream(stream);
-        _audioService.BindToEndedEvent(OnAudioEnded);
-
-        if (!_timer.IsRunning)
-        {
-            _timer.Interval = TimeSpan.FromMilliseconds(100);
-            _timer.Tick += OnTimerTickEvent;
-            _timer.Start();
-        }
-
-        _vm.PlayIcon = MaterialIconsHelper.Pause_circle;
-        _vm.RepeatColor = Global.RepeatPlay ? Colors.RoyalBlue : Colors.DarkSlateGray;
-        _vm.RandomColor = Global.RandomPlay ? Colors.RoyalBlue : Colors.DarkSlateGray;
-
-        _vm.UpdateMusicInfo();
+        _vm.ClosePlayer();
     }
 
     private static string DurationToTime(double duration)
@@ -82,63 +50,21 @@ public partial class MusicFileInfoPage : ContentPage
     }
 
 
-    private void OnAudioEnded(object? sender, EventArgs e)
-    {
-        if (Global.RepeatPlay)
-            _audioService.Seek(0);
-        else
-            ButtonNext_Pressed(sender, e);
-    }
-
     private void OnTimerTickEvent(object? sender, EventArgs e)
     {
-        if (!_audioService.IsAudioLoaded)
+        if (!_vm.AudioService.IsAudioLoaded)
             return;
 
-        Duration.Text = DurationToTime(_audioService.GetDuration());
-        _audioService.SetIsRepeat(Global.RepeatPlay);
+        Duration.Text = DurationToTime(_vm.AudioService.GetDuration());
+        _vm.AudioService.SetIsRepeat(Global.RepeatPlay);
 
-        if (!_sliderDragging)
-            Slider.Value = _audioService.GetCurrentPosition() / _audioService.GetDuration();
+        if (!_vm.SliderDragging)
+            Slider.Value = _vm.AudioService.GetCurrentPosition() / _vm.AudioService.GetDuration();
         else
-            CurrentPosition.Text = DurationToTime(Slider.Value * _audioService.GetDuration());
-        CurrentPosition.Text = DurationToTime(_audioService.GetCurrentPosition());
+            CurrentPosition.Text = DurationToTime(Slider.Value * _vm.AudioService.GetDuration());
+        CurrentPosition.Text = DurationToTime(_vm.AudioService.GetCurrentPosition());
     }
 
-    private void ButtonPlay_Pressed(object sender, EventArgs e)
-    {
-        if (!_audioService.IsAudioLoaded)
-            return;
-
-        if (_audioService.GetIsPlaying())
-        {
-            _audioService.Pause();
-            _vm.PlayIcon = MaterialIconsHelper.Play_circle;
-        }
-        else
-        {
-            _audioService.Resume();
-            _vm.PlayIcon = MaterialIconsHelper.Pause_circle;
-        }
-    }
-
-    private void ButtonPrev_Pressed(object sender, EventArgs e)
-    {
-        var index = Array.FindIndex(Global.MusicQueue, (info) => info.Note == Global.MusicInfo.Note);
-        if (index == 0)
-            return;
-        Global.MusicInfo = Global.MusicQueue[index - 1];
-        Init();
-    }
-
-    private void ButtonNext_Pressed(object? sender, EventArgs e)
-    {
-        var index = Array.FindIndex(Global.MusicQueue, (info) => info.Note == Global.MusicInfo.Note);
-        if (index == Global.MusicQueue.Length - 1)
-            return;
-        Global.MusicInfo = Global.MusicQueue[index + 1];
-        Init();
-    }
 
     private void RepeatButton_Pressed(object sender, EventArgs e)
     {
@@ -159,19 +85,19 @@ public partial class MusicFileInfoPage : ContentPage
 
     private void Slider_DragStarted(object sender, EventArgs e)
     {
-        _sliderDragging = true;
-        _audioService.Pause();
+        _vm.SliderDragging = true;
+        _vm.AudioService.Pause();
     }
 
     private void Slider_DragCompleted(object sender, EventArgs e)
     {
-        _sliderDragging = false;
+        _vm.SliderDragging = false;
 
-        if (!_audioService.IsAudioLoaded)
+        if (!_vm.AudioService.IsAudioLoaded)
             return;
 
-        _audioService.Seek(Slider.Value * _audioService.GetDuration());
-        _audioService.Resume();
+        _vm.AudioService.Seek(Slider.Value * _vm.AudioService.GetDuration());
+        _vm.AudioService.Resume();
     }
 
     private void RankButton_Pressed(object sender, EventArgs e)

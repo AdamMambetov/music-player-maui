@@ -88,4 +88,9 @@ public class AudioService(IAudioManager audioManager)
         _player.Dispose();
         _player = null;
     }
+
+    internal void UnbindFromEndedEvent(Action<object?, EventArgs> onAudioEnded)
+    {
+        throw new NotImplementedException();
+    }
 }
